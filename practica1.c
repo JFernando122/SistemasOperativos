@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <unistd.h>
 #include "nodos.h"
 #define null NULL
 
@@ -53,6 +51,11 @@ int main(int argc, char *argv[]) {
 	case 5:
 		puts("Bonito dia...");
 	break;
+	case 11:
+		system("archivo.exe");
+	break;
+	case 12:
+		system("./archivo");
 	default:
 	puts("Opcion invalida. Intente de nuevo.");
 	break;
