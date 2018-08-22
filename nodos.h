@@ -147,8 +147,8 @@ void mostrarListaD(Nodo* cabeza){
 			}
 			if(tiempo >= INTERVALO){
 				tiempo -= INTERVALO;
-				printf("Intervalo %d  procesos terminados %d\n",intervalos,i);
-				//printf("Procesos terminados en %d segundos:%.2f\n",INTERVALO,(double) i/ (double)++intervalos);
+				//printf("Intervalo %d  procesos terminados %d\n",intervalos,i);
+				printf("Procesos terminados en %d segundos:%.2f\n",INTERVALO,(double) i/ (double)++intervalos);
 			}
 		}while(aux != NULL);
 	}
