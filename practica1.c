@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "nodos.h"
-#define null NULL
 
 Nodo* leerArchivo(char* nombre, Nodo* cabeza){
 	FILE* archivo = fopen(nombre,"r");
@@ -24,7 +23,7 @@ int main(int argc, char *argv[]) {
 	char nombredelarchivo[20];
 	Nodo* cabeza = NULL;
 	do{
-	puts("¿Que desea hacer?");
+	puts("Que desea hacer?");
 	printf("1.- Leer archivo   2.-Borrar nodo   3.-Mostrar lista   4.-Despachar  5.-Salir\n");
 	scanf("%d",&opcion);
 	switch(opcion){
@@ -37,7 +36,7 @@ int main(int argc, char *argv[]) {
 	break;
 	case 2:
 		printf("Longitud de la lista %d\n",Longitud(cabeza));
-		printf("¿Que nodo desea borrar?");
+		printf("Que nodo desea borrar?");
 		scanf("%d",&nodoaeliminar);
 		cabeza = borrarNodo(cabeza,nodoaeliminar);
 	break;
