@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include <unistd.h>
-#include <windows.h>
+#include <unistd.h>
+//#include <windows.h>
 #include <string.h>
 #define MIN_LINEA 1
 #define MAX_LINEA 10
@@ -100,8 +100,8 @@ void mostrarListaE(Nodo* cabeza){
 					break;
 			}
 			puts("");
-			Sleep(aleatoriotiempo*1000);
-			//sleep(aleatoriotiempo);
+			//Sleep(aleatoriotiempo*1000);
+			sleep(aleatoriotiempo);
 		}while(aux != cabeza);
 	}
 }
@@ -120,19 +120,19 @@ void mostrarListaD(Nodo* cabeza){
 	Nodo* aux = cabeza;
 	int i = 0,tiempo = 0,intervalos = 0;
 	if(cabeza == NULL)
-		puts("Lusta vacia\n");
+		puts("Lista vacia\n");
 	else{
 		do{
 			if(aux->numero1 < QUANTUM){
-				Sleep(aux->numero1*1000);
-				//sleep(aux->numero1);
+				//Sleep(aux->numero1*1000);
+				sleep(aux->numero1);
 				tiempo += aux->numero1;
 				printf("Proceso %d terminado\n",aux->id);
 				aux  = borrarNodo(aux,aux->id);
 				i++;
 			}else{
-				Sleep(QUANTUM*1000);
-				//sleep(QUANTUM);
+				//Sleep(QUANTUM*1000);
+				sleep(QUANTUM);
 				aux->numero1 -= QUANTUM;
 				tiempo += QUANTUM;
 				printf("id: %d Tiempo restante: %d\n",aux->id,aux->numero1);
