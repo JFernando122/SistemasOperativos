@@ -18,14 +18,14 @@ typedef struct Nodo{
 
 
 Nodo* agregaNodo(Nodo* cabeza, Nodo a){
-	static int id = 0;
+	//static int id = 0;
 	Nodo* aux = cabeza;
 	Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
 	strcpy(nuevo->cadena,a.cadena);
 	nuevo->caracter = a.caracter;
 	nuevo->numero1 = a.numero1;
 	nuevo->numero2 = a.numero2;
-	nuevo->id = ++id;
+	nuevo->id = a.id;
 	nuevo->siguiente = cabeza;
 	if(cabeza == NULL){
 		cabeza = nuevo;
@@ -116,40 +116,4 @@ void mostrarLista(Nodo* cabeza){
 		}while(aux != cabeza);
 	}
 }
-void mostrarListaD(Nodo* cabeza){
-	Nodo* aux = cabeza;
-	int i = 0,tiempo = 0,intervalos = 0;
-	if(cabeza == NULL)
-		puts("Lista vacia\n");
-	else{
-		do{
-			if(aux->numero1 < QUANTUM){
-				//Sleep(aux->numero1*1000);
-				sleep(aux->numero1);
-				tiempo += aux->numero1;
-				printf("Proceso %d terminado\n",aux->id);
-				aux  = borrarNodo(aux,aux->id);
-				i++;
-			}else{
-				//Sleep(QUANTUM*1000);
-				sleep(QUANTUM);
-				aux->numero1 -= QUANTUM;
-				tiempo += QUANTUM;
-				printf("id: %d Tiempo restante: %d\n",aux->id,aux->numero1);
-				if(aux->numero1 == 0){
-					printf("Proceso %d terminado\n",aux->id);
-					aux = borrarNodo(aux,aux->id);
-					i++;
-				}else{
-					if(aux != NULL)
-				   aux = aux->siguiente;
-				}
-			}
-			if(tiempo >= INTERVALO){
-				tiempo -= INTERVALO;
-				//printf("Intervalo %d  procesos terminados %d\n",intervalos,i);
-				printf("Procesos terminados en %d segundos:%.2f\n",INTERVALO,(double) i/ (double)++intervalos);
-			}
-		}while(aux != NULL);
-	}
-}
+
