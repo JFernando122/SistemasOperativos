@@ -153,3 +153,12 @@ void mostrarListaD(Nodo* cabeza){
 		}while(aux != NULL);
 	}
 }
+Nodo* AgregaNodoP(Nodo* cabeza, Nodo a){
+	Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+	strcpy(nuevo->cadena,a.cadena);
+	nuevo->caracter = a.caracter;
+	nuevo->numero1 = a.numero1;
+	nuevo->numero2 = a.numero2;
+	nuevo->siguiente = cabeza;
+	return nuevo;
+}

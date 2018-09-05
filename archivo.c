@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include "lista.h"
 #define MAX_LINEAS 500
 #define MAX_NUM 100
 #define MIN_NUM 1
@@ -36,10 +37,18 @@ void crearArchivo(char* nombre){
 }
 
 int main(){
+	Nodo* cabeza = NULL;
 	char nombre[25];
+	char nombreA[25];
+	char nombreD[25];
 	puts("Dame el nombre del archivo");
 	scanf("%s",nombre);
+	strcpy(nombreA,nombre);
+	strcpy(nombreD,nombre);
 	strcat(nombre,".txt");
+	strcat(nombreA,"1.txt");
+	strcat(nombreD,"2.txt");
 	crearArchivo(nombre);
+	crearArchivos(nombre,nombreA,nombreD);
 	return 0;
 }
