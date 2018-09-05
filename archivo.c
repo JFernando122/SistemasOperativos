@@ -2,10 +2,11 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lista.h"
-#define MAX_LINEAS 500
-#define MAX_NUM 100
-#define MIN_NUM 1
+#define MAX_LINEAS 30
+#define MAX_EXE 7
+#define MIN_EXE 1
+#define MAX_PRIO 20
+#define MIN_PRIO 1
 
 void crearArchivo(char* nombre){
 	srand(time(NULL));
@@ -28,8 +29,8 @@ void crearArchivo(char* nombre){
 			}
 			fflush(archivo);
 			fprintf(archivo," ");
-			numero1 = (rand() % (MAX_NUM - MIN_NUM)) + MIN_NUM;
-			numero2 = (rand() % (MAX_NUM - MIN_NUM)) + MIN_NUM;
+			numero1 = (rand() % (MAX_EXE - MIN_EXE)) + MIN_EXE;
+			numero2 = (rand() % (MAX_PRIO - MIN_PRIO)) + MIN_PRIO;
 			fprintf(archivo,"%c %d %d\n",caracter,numero1,numero2);
 		}
 	}
@@ -37,18 +38,10 @@ void crearArchivo(char* nombre){
 }
 
 int main(){
-	Nodo* cabeza = NULL;
 	char nombre[25];
-	char nombreA[25];
-	char nombreD[25];
 	puts("Dame el nombre del archivo");
 	scanf("%s",nombre);
-	strcpy(nombreA,nombre);
-	strcpy(nombreD,nombre);
 	strcat(nombre,".txt");
-	strcat(nombreA,"1.txt");
-	strcat(nombreD,"2.txt");
 	crearArchivo(nombre);
-	crearArchivos(nombre,nombreA,nombreD);
 	return 0;
 }
