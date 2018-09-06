@@ -83,38 +83,39 @@ master* leerArchivo(char* nombre, master* master){
 	return master;
 }
 int check(){printf("pasa");return 0;}
-Nodo* mostrarListaD(Nodo* cabeza, Nodo_E* estadistica){
+Nodo* mostrarListaD(Nodo* cabeza, Nodo_E* estadistica,int prioridad){
 	Nodo* aux = cabeza;
 	Nodo_E* temp;
 	Nodo* temp1;
-	int i = 0,tiempo = 0,intervalos = 0,lon = Longitud(cabeza);
+	static int i = 0,tiempo = 0,intervalos = 0;
+	int lon = Longitud(cabeza);
 	if(aux == NULL)
 		puts("Lista vacia\n");
 	else{
-        
 		for(int j = 0; j < lon; j++){
-			if(aux->numero1 < QUANTUM){
+			if(aux->numero1 < QUANTUM+MAX_PRIO-prioridad){
 				//Sleep(aux->numero1*1000);
 				sleep(aux->numero1);
 				tiempo += aux->numero1;
 				printf("Proceso %d terminado\n",aux->id);
 				temp = buscarNodo_E(estadistica,aux->id);
 				temp->tiempo_terminacion = intervalos*INTERVALO + tiempo;
+				//printf("Tiempo de terminacion %d\n",temp->tiempo_terminacion);
 				temp1 = aux;
 				aux  = aux->siguiente;
 				cabeza  = borrarNodo(cabeza,temp1->id);
 				i++;
 			}else{
 				//Sleep(QUANTUM*1000);
-				sleep(QUANTUM);
-                //printf("%d",check()+aux->numero1);
-				aux->numero1 -= QUANTUM;
-				tiempo += QUANTUM;
+				sleep(QUANTUM+MAX_PRIO-prioridad);
+				aux->numero1 -= QUANTUM+MAX_PRIO-prioridad;
+				tiempo += QUANTUM+MAX_PRIO-prioridad;
 				printf("id: %d Tiempo restante: %d\n",aux->id,aux->numero1);
 				if(aux->numero1 == 0){
 					printf("Proceso %d terminado\n",aux->id);
 					temp = buscarNodo_E(estadistica,aux->id);
 					temp->tiempo_terminacion = intervalos*INTERVALO + tiempo;
+					//printf("Tiempo de terminacion %d\n",temp->tiempo_terminacion);
 					temp1 = aux;
 					aux = aux->siguiente;
 					cabeza = borrarNodo(cabeza,temp1->id);
@@ -123,13 +124,12 @@ Nodo* mostrarListaD(Nodo* cabeza, Nodo_E* estadistica){
 				   aux = aux->siguiente;
 				}
 			}
-			/*if(tiempo >= INTERVALO){
+			if(tiempo >= INTERVALO){
 				tiempo -= INTERVALO;
 				printf("Procesos terminados en %d segundos:%.2f\n",INTERVALO,(double) i/ (double)++intervalos);
-			}*/
+				}
             }
 		//}while(cabeza != NULL && aux != cabeza);
-		//mostrarE(estadistica);
 	}
     return cabeza;
 }
@@ -138,29 +138,29 @@ void despachar(master* master){
     Multilista* aux2 = NULL;
 	Nodo* temp;
 	while(aux->prioridad > 1){
-        puts("Lista a ejecutarse\n\n");
-        mostrarLista(aux->lista);
-        puts("\n\n");
-        temp=mostrarListaD(aux->lista, master->estadistica);
-        if(aux->siguiente != NULL && aux->siguiente->prioridad==(aux->prioridad)-1){
-            aux->siguiente->lista=juntarListas(aux->siguiente->lista, temp);
-            /*printf("Prioridad1: %d prioridad2: %d\n",aux->prioridad,aux->siguiente->prioridad);
-            puts("Listas fusionadas\n");
-            mostrarLista(aux->siguiente->lista);
-            puts("Fin lista\n");*/
-         }else{
-            printf("Creando prioridad:%d\n",aux->prioridad-1);
-            aux2=(Multilista*) malloc(sizeof(Multilista));
-            aux2->prioridad=aux->prioridad-1;
-            aux2->lista=temp;
-            aux2->siguiente=aux->siguiente;
-            aux->siguiente = aux2;
-         }
-            aux=aux->siguiente; 
+        temp=mostrarListaD(aux->lista, master->estadistica,aux->prioridad);
+        if (temp != NULL){
+        	if(aux->siguiente != NULL && aux->siguiente->prioridad==(aux->prioridad)-1){
+        		aux->siguiente->lista=juntarListas(aux->siguiente->lista, temp);
+        	}else{
+        		printf("Creando prioridad:%d\n",aux->prioridad-1);
+        		aux2=(Multilista*) malloc(sizeof(Multilista));
+        		aux2->prioridad=aux->prioridad-1;
+        		aux2->lista=temp;
+        		aux2->siguiente=aux->siguiente;
+        		aux->siguiente = aux2;
+        	}
+     	}
+            aux=aux->siguiente;
     }
-    temp=juntarListas(aux->lista, temp);
+    if (temp == NULL)
+    	sleep(10);
+    	printf("Nodos restantes %d\n",Longitud(temp));
+    	mostrarLista(temp);
+    	puts("\n\n");
+	//temp=juntarListas(aux->lista, temp);
     do{
-    temp=mostrarListaD(temp, master->estadistica);
+    	temp=mostrarListaD(temp, master->estadistica,aux->prioridad);
     }while(temp!=NULL);
 
 }
@@ -181,25 +181,20 @@ int main(int argc, char *argv[]) {
 		strcat(nombredelarchivo,".txt");
 		master = leerArchivo(nombredelarchivo,master);
 		mostrarMultilista(master->cabeza);
-        //mostrarLista(juntarListas(mostrarListaD(master->cabeza->lista,master->estadistica),master->cabeza->siguiente->lista));
-        //mostrarLista(master->cabeza->lista);
-        //puts("despachado");
-       // mostrarLista(mostrarListaD(master->cabeza->lista,master->estadistica));
-        despachar(master);
-		//puts("C");
 		//mostrarListaE(master->cabeza);
 	break;
 	case 2:
-		/*printf("Longitud de la lista %d\n",Longitud(master->cabeza));
+		//printf("Longitud de la lista %d\n",Longitud(master->cabeza));
 		printf("Que nodo desea borrar?");
 		scanf("%d",&nodoaeliminar);
-		master->cabeza = borrarNodo(master->cabeza,nodoaeliminar);*/
+		master->cabeza->lista = borrarNodo(master->cabeza->lista,nodoaeliminar);
 	break;
 	case 3:
-		//mostrarLista(master->cabeza);
+		mostrarMultilista(master->cabeza);
 	break;
 	case 4:
-		//mostrarListaD(master);
+		despachar(master);
+		mostrarE(master->estadistica);
 		//master->cabeza = NULL;
 	break;
 	case 5:

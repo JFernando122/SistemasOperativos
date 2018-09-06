@@ -6,7 +6,7 @@
 #define MAX_LINEAS 500
 #define MAX_EXE 100
 #define MIN_EXE 1
-#define MAX_PRIO 50
+//#define MAX_PRIO 50
 #define MIN_PRIO 1
 
 void crearArchivo(char* nombre){

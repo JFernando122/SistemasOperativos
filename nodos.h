@@ -7,8 +7,9 @@
 #define MAX_LINEA 5
 #define MAX_SEG 7
 #define MIN_SEG 1
-#define QUANTUM 3
-#define INTERVALO 20
+#define QUANTUM 10
+#define INTERVALO 100
+#define MAX_PRIO 31
 typedef struct Nodo{
 	char cadena[45];
 	char caracter;
@@ -25,7 +26,6 @@ Nodo* juntarListas(Nodo* lista1, Nodo* lista2){
         do{
             aux1=aux1->siguiente;
      }while(aux1->siguiente!=lista1);
-    
      do{
          aux2=aux2->siguiente;
       }while(aux2->siguiente!=lista2);
@@ -39,7 +39,6 @@ Nodo* juntarListas(Nodo* lista1, Nodo* lista2){
 
 Nodo* agregaNodo(Nodo* cabeza, Nodo a){
 	Nodo* aux = cabeza;
-    //Nodo* aux1=a.siguiente;
 	Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
 	strcpy(nuevo->cadena,a.cadena);
 	nuevo->caracter = a.caracter;
@@ -57,10 +56,6 @@ Nodo* agregaNodo(Nodo* cabeza, Nodo a){
 		}
 		aux->siguiente = nuevo;
 	}
-    /*while(aux1.siguiente!=a){
-    aux1=aux1.siguiente;    
-    }
-    aux1.siguiente=cabeza;*/
 	return cabeza;
 }
 int Longitud(Nodo* cabeza){
@@ -139,5 +134,14 @@ void mostrarLista(Nodo* cabeza){
 			aux = aux->siguiente;
 		}while(aux != cabeza);
 	}
+}
+Nodo* AgregaNodoP(Nodo* cabeza, Nodo a){
+	Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+	strcpy(nuevo->cadena,a.cadena);
+	nuevo->caracter = a.caracter;
+	nuevo->numero1 = a.numero1;
+	nuevo->numero2 = a.numero2;
+	nuevo->siguiente = cabeza;
+	return nuevo;
 }
 
